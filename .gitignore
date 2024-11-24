@@ -1,0 +1,22 @@
+# IDE specific files
+.idea/
+*.iml
+
+# Build directories
+cmake-build-*/
+build-*/
+docs-*/
+
+
+# Compiled binary files
+*.o
+*.obj
+*.so
+*.exe
+*.ignore
+*.ini
+*.qrc
+
+# System-specific files
+.DS_Store
+Thumbs.db
