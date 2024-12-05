@@ -3,9 +3,14 @@
 *.iml
 
 # Build directories
-cmake-build-*/
-build
-docs
+cmake-build-debug/
+cmake-build-release/
+build/
+docs/
+
+
+CMakeFiels/
+CMakeCache.txt
 
 
 # Compiled binary files
