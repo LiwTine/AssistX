@@ -1,7 +1,7 @@
 #include "RecognizeVosk.h"
 
 void RecognizeVosk::initialize() {
-    _model = vosk_model_new("lib/model_vosk_small_ru");
+    _model = vosk_model_new("C:/Users/ImbaM/Desktop/AssistX/lib/model_vosk_small_ru");
     if (!_model) {
         throw std::logic_error("Error on load model");
     }
@@ -10,9 +10,9 @@ void RecognizeVosk::initialize() {
 }
 
 void RecognizeVosk::executeProcessing()  {
-    while (isRunning || !audioQueue.empty()) {
+    while (_isRunning || !audioQueue.empty()) {
         std::unique_lock<std::mutex> lock(queueMutex);
-        queueCondition.wait(lock, [this] { return !audioQueue.empty() || !isRunning; });
+        queueCondition.wait(lock, [this] { return !_isRunning || !audioQueue.empty(); });
 
         if (!audioQueue.empty()) {
             auto buffer = audioQueue.front();
@@ -28,4 +28,15 @@ void RecognizeVosk::executeProcessing()  {
     }
 }
 
-RecognizeVosk::~RecognizeVosk() = default;
+RecognizeVosk::~RecognizeVosk() {
+    queueCondition.notify_all();
+
+    if (_recognizer) {
+        vosk_recognizer_free(_recognizer);
+        _recognizer = nullptr;
+    }
+    if (_model) {
+        vosk_model_free(_model);
+        _model = nullptr;
+    }
+}

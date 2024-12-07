@@ -1,7 +1,7 @@
 #ifndef ASSISTX_RECOGNIZEVOSK_H
 #define ASSISTX_RECOGNIZEVOSK_H
 
-#include <core/InterfaceVoiceRecognize.h>
+#include "headers/InterfaceVoiceRecognize.h"
 
 class RecognizeVosk : public InterfaceVoiceRecognize, public isRunning{
 public:

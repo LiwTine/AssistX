@@ -1,17 +1,18 @@
 set(HEADER_FILES
-        core/Core_Interface.h
+        headers/Core_Interface.h
         recognizer/RecognizeVosk.h
-        core/defines.h
+        headers/defines.h
         core/isRunning.h
-        core/InterfaceVoiceRecognize.h
+        headers/InterfaceVoiceRecognize.h
         voice/InputVoice.h
-        )
+        core/Assistant.h)
 
 set(SOURCE_FILES
         main.cpp
         recognizer/RecognizeVosk.cpp
         voice/InputVoice.cpp
-        )
+        core/Assistant.cpp
+        core/isRunning.cpp)
 
 add_executable(AssistX ${SOURCE_FILES} ${HEADER_FILES})
 

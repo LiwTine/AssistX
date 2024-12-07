@@ -10,7 +10,7 @@ void InputVoice::initialize() {
 }
 
 void InputVoice::executeProcessing() {
-    while (isRunning) {
+    while (_isRunning) {
         std::vector<int16_t> buffer(FRAMES_PER_BUFFER);
         if (Pa_ReadStream(_stream, buffer.data(), FRAMES_PER_BUFFER) == paNoError) {
             std::lock_guard<std::mutex> lock(queueMutex);
@@ -20,4 +20,11 @@ void InputVoice::executeProcessing() {
     }
 }
 
-InputVoice::~InputVoice() = default;
+InputVoice::~InputVoice() {
+    queueCondition.notify_all();
+
+    Pa_StopStream(_stream);
+    Pa_CloseStream(_stream);
+
+    Pa_Terminate();
+}

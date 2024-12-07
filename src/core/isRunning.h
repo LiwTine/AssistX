@@ -4,11 +4,10 @@
 class isRunning {
 public:
     //bool GetIsRunning() const {return isRunning;}
-    void start() { isRunning = true; }
-    void stop() { isRunning = false; }
+    static void startRun() { _isRunning = true; }
+    static void stopRun() { _isRunning = false; }
 
-protected:
-    bool isRunning = false;
+    static bool _isRunning;
 };
 
 #endif //ASSISTX_ISRUNNING_H
