@@ -10,13 +10,13 @@ void RecognizeVosk::initialize() {
 }
 
 void RecognizeVosk::executeProcessing()  {
-    while (_isRunning || !audioQueue.empty()) {
-        std::unique_lock<std::mutex> lock(queueMutex);
-        queueCondition.wait(lock, [this] { return !_isRunning || !audioQueue.empty(); });
+    while (_isRunning) {
+        std::unique_lock<std::mutex> lock(*queueMutex);
+        queueCondition->wait(lock, [this] { return !audioQueue->empty() || !_isRunning; });
 
-        if (!audioQueue.empty()) {
-            auto buffer = audioQueue.front();
-            audioQueue.pop();
+        if (!audioQueue->empty()) {
+            auto buffer = audioQueue->front();
+            audioQueue->pop();
             lock.unlock();
 
             if (vosk_recognizer_accept_waveform(_recognizer,
@@ -29,7 +29,8 @@ void RecognizeVosk::executeProcessing()  {
 }
 
 RecognizeVosk::~RecognizeVosk() {
-    queueCondition.notify_all();
+    queueCondition->notify_all();
+    std::cout << "Очистка Recognize!";
 
     if (_recognizer) {
         vosk_recognizer_free(_recognizer);

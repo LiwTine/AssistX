@@ -10,9 +10,8 @@ int main() {
 
     assistant.Run();
 
-    while (isRunning) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));  // Пауза, чтобы не перегружать процессор
-    }
+    std::cout << "Нажмите Enter для завершения...\n";
+    std::cin.get();
 
     return 0;
 }

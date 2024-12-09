@@ -13,15 +13,17 @@ void InputVoice::executeProcessing() {
     while (_isRunning) {
         std::vector<int16_t> buffer(FRAMES_PER_BUFFER);
         if (Pa_ReadStream(_stream, buffer.data(), FRAMES_PER_BUFFER) == paNoError) {
-            std::lock_guard<std::mutex> lock(queueMutex);
-            audioQueue.push(buffer);
-            queueCondition.notify_one();
+            std::lock_guard<std::mutex> lock(*queueMutex);
+            audioQueue->push(buffer);
+            //std::cout << "Добавляю данные в очередь" << std::endl; // В InputVoice
+            queueCondition->notify_one();
         }
     }
 }
 
 InputVoice::~InputVoice() {
-    queueCondition.notify_all();
+    queueCondition->notify_all();
+    std::cout << "Очистка Voice!";
 
     Pa_StopStream(_stream);
     Pa_CloseStream(_stream);

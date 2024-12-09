@@ -12,16 +12,20 @@
 
 class InterfaceVoiceRecognize : CoreAssistantInterface{
 public:
+    InterfaceVoiceRecognize(std::shared_ptr<std::queue<std::vector<int16_t>>> queue,
+                            std::shared_ptr<std::mutex> mutex,
+                            std::shared_ptr<std::condition_variable> condition)
+            : audioQueue(std::move(queue)), queueMutex(std::move(mutex)), queueCondition(std::move(condition)) {}
+
+
     void initialize() override = 0;
-
     void executeProcessing() override = 0;
-
     ~InterfaceVoiceRecognize() override = default;
 
 protected:
-    std::queue<std::vector<int16_t>> audioQueue;
-    std::mutex queueMutex;
-    std::condition_variable queueCondition;
+    std::shared_ptr<std::queue<std::vector<int16_t>>> audioQueue;
+    std::shared_ptr<std::mutex> queueMutex;
+    std::shared_ptr<std::condition_variable> queueCondition;
 };
 
 #endif //ASSISTX_INTERFACEVOICERECOGNIZE_H
