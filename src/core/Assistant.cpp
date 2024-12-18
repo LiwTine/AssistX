@@ -1,8 +1,8 @@
 #include "recognizer/RecognizeVosk.h"
 #include "voice/InputVoice.h"
-#include "Assistant.h"
-#include "isRunning.h"
-
+#include "core/Assistant.h"
+#include "core/isRunning.h"
+#include <regex>
 
 void Assistant::ComponentInitialize() {
     auto queue = std::make_shared<std::queue<std::vector<int16_t>>>();

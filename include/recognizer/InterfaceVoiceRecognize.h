@@ -1,9 +1,9 @@
 #ifndef ASSISTX_INTERFACEVOICERECOGNIZE_H
 #define ASSISTX_INTERFACEVOICERECOGNIZE_H
 
-#include "Core_Interface.h"
+#include "core/Core_Interface.h"
 #include "vosk_api.h"
-#include "defines.h"
+#include "core/defines.h"
 #include "core/isRunning.h"
 #include "portaudio.h"
 #include <mutex>

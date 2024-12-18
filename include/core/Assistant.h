@@ -2,7 +2,7 @@
 #define ASSISTX_ASSISTANT_H
 
 #include <vector>
-#include "headers/InterfaceVoiceRecognize.h"
+#include "recognizer/InterfaceVoiceRecognize.h"
 
 class Assistant {
 public:

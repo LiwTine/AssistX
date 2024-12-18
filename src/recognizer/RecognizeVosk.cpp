@@ -1,7 +1,7 @@
-#include "RecognizeVosk.h"
+#include "recognizer/RecognizeVosk.h"
 
 void RecognizeVosk::initialize() {
-    _model = vosk_model_new("C:/Users/ImbaM/Desktop/AssistX/lib/model_vosk_small_ru");
+    _model = vosk_model_new("C:/Users/ImbaM/Desktop/AssistX/assets/models/model_vosk_small_ru");
     if (!_model) {
         throw std::logic_error("Error on load model");
     }
