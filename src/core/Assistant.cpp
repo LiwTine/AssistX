@@ -11,12 +11,19 @@ void Assistant::ComponentInitialize() {
 
     components.push_back(std::make_unique<RecognizeVosk>(queue, mutex, condition));
     components.push_back(std::make_unique<InputVoice>(queue, mutex, condition));
+
+    pipelineProcessor = std::make_unique<PipelineProcessor>(PipelineFactory::createPipeline());
+
 }
 
 
 void Assistant::Run() {
     ComponentInitialize();
     isRunning::startRun();
+
+    std::thread pipelineThread([this]() {
+        pipelineProcessor->run();
+    });
 
     for (auto &component : components) {
         threads.emplace_back([component = std::move(component)]() {
@@ -25,6 +32,10 @@ void Assistant::Run() {
             std::cout << "Поток создан: " << std::endl;
         });
     }
+
+    pipelineThread.join();
+
+    joinThreads();
 }
 
 void Assistant::joinThreads() {

@@ -22,7 +22,9 @@ void RecognizeVosk::executeProcessing()  {
             if (vosk_recognizer_accept_waveform(_recognizer,
                                                 (const char*)buffer.data(),
                                                 static_cast<int>(buffer.size() * sizeof(int16_t)))) {
-                std::cout << "Результат: " << vosk_recognizer_result(_recognizer) << std::endl;
+                std::string result = vosk_recognizer_result(_recognizer);
+                //std::cout << "Результат: " << result << std::endl;
+                pipelineProcessor->addData(result);
             }
         }
     }

@@ -2,10 +2,13 @@
 #define ASSISTX_ASSISTANT_H
 
 #include <vector>
-#include "recognizer/InterfaceVoiceRecognize.h"
+#include "InterfaceVoiceRecognize.h"
+#include "patterns/TextParserFactory.h"
 
 class Assistant {
 public:
+    Assistant() = default;
+
     void Run();
 
     ~Assistant();
@@ -13,6 +16,8 @@ public:
 private:
     std::vector<std::unique_ptr<InterfaceVoiceRecognize>> components;
     std::vector<std::thread> threads;
+
+    std::unique_ptr<PipelineProcessor> pipelineProcessor;
 
     void ComponentInitialize();
 

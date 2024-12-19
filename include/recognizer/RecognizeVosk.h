@@ -1,7 +1,8 @@
 #ifndef ASSISTX_RECOGNIZEVOSK_H
 #define ASSISTX_RECOGNIZEVOSK_H
 
-#include "InterfaceVoiceRecognize.h"
+#include "core/InterfaceVoiceRecognize.h"
+#include "patterns/TextParserFactory.h"
 
 class RecognizeVosk : public InterfaceVoiceRecognize, public isRunning{
 public:
@@ -18,6 +19,7 @@ private:
     VoskModel *_model{};
     VoskRecognizer *_recognizer{};
 
+    std::unique_ptr<PipelineProcessor> pipelineProcessor;
 };
 
 

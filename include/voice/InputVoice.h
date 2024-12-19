@@ -1,7 +1,7 @@
 #ifndef ASSISTX_INPUTVOICE_H
 #define ASSISTX_INPUTVOICE_H
 
-#include "recognizer/InterfaceVoiceRecognize.h"
+#include "core/InterfaceVoiceRecognize.h"
 
 class InputVoice : public InterfaceVoiceRecognize, public isRunning {
 public:

@@ -17,7 +17,7 @@ set(SOURCES
         src/voice/InputVoice.cpp
         src/main.cpp
         src/parser/CommandParser.cpp
-        src/parser/ActionParser.cpp src/patterns/TextParserFactory.cpp)
+        src/parser/ActionParser.cpp src/patterns/TextParserFactory.cpp src/parser/ParserJSON.cpp)
 
 set(HEADERS
         include/core/Assistant.h
@@ -29,11 +29,11 @@ set(HEADERS
         include/parser/CommandParser.h
         include/parser/IParser.h
         include/parser/ParameterParser.h
-        include/recognizer/InterfaceVoiceRecognize.h
+        include/core/InterfaceVoiceRecognize.h
         include/recognizer/RecognizeVosk.h
         include/voice/InputVoice.h
         include/patterns/TextParserFactory.h
-        )
+        include/parser/ParserJSON.h)
 
 add_executable(AssistX ${SOURCES} ${HEADERS})
 
