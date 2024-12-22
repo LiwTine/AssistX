@@ -34,8 +34,6 @@ void Assistant::Run() {
     }
 
     pipelineThread.join();
-
-    joinThreads();
 }
 
 void Assistant::joinThreads() {

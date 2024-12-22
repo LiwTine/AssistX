@@ -17,7 +17,9 @@ set(SOURCES
         src/voice/InputVoice.cpp
         src/main.cpp
         src/parser/CommandParser.cpp
-        src/parser/ActionParser.cpp src/patterns/TextParserFactory.cpp src/parser/ParserJSON.cpp)
+        src/parser/ActionParser.cpp
+        src/patterns/TextParserFactory.cpp
+        src/parser/ParserJSON.cpp)
 
 set(HEADERS
         include/core/Assistant.h
