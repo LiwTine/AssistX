@@ -12,14 +12,13 @@ void Assistant::ComponentInitialize() {
     components.push_back(std::make_unique<RecognizeVosk>(queue, mutex, condition));
     components.push_back(std::make_unique<InputVoice>(queue, mutex, condition));
 
-    pipelineProcessor = std::make_unique<PipelineProcessor>(PipelineFactory::createPipeline());
-
+    pipelineProcessor = std::make_unique< patterns::PipelineProcessor >( patterns::PipelineFactory::createPipeline ( ) );
 }
 
 
-void Assistant::Run() {
-    ComponentInitialize();
-    isRunning::startRun();
+void Assistant::Run( ) {
+    ComponentInitialize( );
+    isRunning::startRun( );
 
     std::thread pipelineThread([this]() {
         pipelineProcessor->run();
@@ -29,7 +28,7 @@ void Assistant::Run() {
         threads.emplace_back([component = std::move(component)]() {
             component->initialize();
             component->executeProcessing();
-            std::cout << "Поток создан: " << std::endl;
+            std::cout << "Поток создан: " << std::this_thread::get_id() << std::endl;
         });
     }
 
@@ -42,13 +41,12 @@ void Assistant::joinThreads() {
     for (auto &thread : threads) {
         if (thread.joinable()) {
             thread.join();
-            std::cout << "Очистка потока" << thread.get_id();
+            std::cout << "Очистка потока: " << thread.get_id();
         }
     }
 }
 
 
 Assistant::~Assistant() {
-    std::cout << "Очистка потоков!";
     joinThreads();
 }

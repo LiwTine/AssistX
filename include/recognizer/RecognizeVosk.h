@@ -19,7 +19,7 @@ private:
     VoskModel *_model{};
     VoskRecognizer *_recognizer{};
 
-    std::unique_ptr<PipelineProcessor> pipelineProcessor;
+    std::unique_ptr<patterns::PipelineProcessor> pipelineProcessor;
 };
 
 

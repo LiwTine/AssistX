@@ -4,8 +4,9 @@
 #include "IParser.h"
 
 
-class CommandParser : public TextParser{
+class CommandParser : public IParser {
 public:
+    explicit CommandParser();
     std::string parse(const std::string& text) override;
     ~CommandParser() noexcept override;
 };

@@ -3,8 +3,10 @@
 
 #include "parser/IParser.h"
 
-class ActionParser : public TextParser {
+class ActionParser : public IParser {
 public:
+    explicit ActionParser();
+
     std::string parse(const std::string& text) override;
     ~ActionParser() noexcept override;
 };

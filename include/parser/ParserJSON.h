@@ -3,7 +3,7 @@
 
 #include "IParser.h"
 
-class ParserJSON : public TextParser{
+class ParserJSON : public IParser {
 public:
     std::string parse(const std::string& text) override;
     ~ParserJSON() noexcept override;

@@ -17,7 +17,7 @@ private:
     std::vector<std::unique_ptr<InterfaceVoiceRecognize>> components;
     std::vector<std::thread> threads;
 
-    std::unique_ptr<PipelineProcessor> pipelineProcessor;
+    std::unique_ptr<patterns::PipelineProcessor> pipelineProcessor;
 
     void ComponentInitialize();
 

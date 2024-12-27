@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(MAIN_EXECUTABLE AssistX)
 
 include_directories(include)
+include_directories( "$ENV{VCPKG}/installed/x64-windows/include" )
 
 set(SOURCES
         src/core/Assistant.cpp
@@ -35,7 +36,8 @@ set(HEADERS
         include/recognizer/RecognizeVosk.h
         include/voice/InputVoice.h
         include/patterns/TextParserFactory.h
-        include/parser/ParserJSON.h)
+        include/parser/ParserJSON.h
+        include/enums/unmumerations.h)
 
 add_executable(AssistX ${SOURCES} ${HEADERS})
 
@@ -43,9 +45,11 @@ set(VOSK_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/vosk")
 set(VOSK_INCLUDE_PATH "${CMAKE_SOURCE_DIR}/lib/vosk")
 
 find_package(portaudio CONFIG REQUIRED)
+find_package(plog CONFIG REQUIRED)
 
 include_directories(${VOSK_INCLUDE_PATH})
 link_directories(${VOSK_LIB_PATH})
 
-target_link_libraries(AssistX PRIVATE portaudio)
-target_link_libraries(AssistX PRIVATE "${CMAKE_SOURCE_DIR}/lib/vosk/libvosk.lib")
+target_link_libraries( ${PROJECT_NAME} PRIVATE portaudio)
+target_link_libraries( ${PROJECT_NAME} INTERFACE plog::plog )
+target_link_libraries( ${PROJECT_NAME} PRIVATE "${CMAKE_SOURCE_DIR}/lib/vosk/libvosk.lib")
