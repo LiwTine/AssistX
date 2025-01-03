@@ -29,12 +29,13 @@ void Assistant::Run( ) {
 
     for (auto &component : components) {
         threads.emplace_back([component = std::move(component)]() {
+            std::cout << "Поток создан: " << std::this_thread::get_id() << std::endl;
             component->initialize();
             component->executeProcessing();
-            std::cout << "Поток создан: " << std::this_thread::get_id() << std::endl;
         });
     }
 
+    joinThreads();
     pipelineThread.join();
 }
 
