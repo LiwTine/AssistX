@@ -22,6 +22,8 @@ private:
     void ComponentInitialize();
 
     void joinThreads();
+
+    std::thread pipelineThread;
 };
 
 

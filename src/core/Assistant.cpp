@@ -20,7 +20,7 @@ void Assistant::Run( ) {
     ComponentInitialize( );
     isRunning::startRun( );
 
-    std::thread pipelineThread([this]() {
+    pipelineThread = std::thread([this]() {
         pipelineProcessor->run();
     });
 
@@ -37,6 +37,9 @@ void Assistant::Run( ) {
 
 void Assistant::joinThreads() {
     isRunning::stopRun();
+
+    if ( pipelineThread.joinable() )
+        pipelineThread.join();
 
     for (auto &thread : threads) {
         if (thread.joinable()) {
