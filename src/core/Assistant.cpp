@@ -33,6 +33,7 @@ void Assistant::Run( ) {
     }
 
     pipelineThread.join();
+
 }
 
 void Assistant::joinThreads() {

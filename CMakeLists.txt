@@ -46,6 +46,7 @@ set(VOSK_INCLUDE_PATH "${CMAKE_SOURCE_DIR}/lib/vosk")
 
 find_package(portaudio CONFIG REQUIRED)
 find_package(plog CONFIG REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
 
 include_directories(${VOSK_INCLUDE_PATH})
 link_directories(${VOSK_LIB_PATH})
@@ -53,3 +54,4 @@ link_directories(${VOSK_LIB_PATH})
 target_link_libraries( ${PROJECT_NAME} PRIVATE portaudio)
 target_link_libraries( ${PROJECT_NAME} INTERFACE plog::plog )
 target_link_libraries( ${PROJECT_NAME} PRIVATE "${CMAKE_SOURCE_DIR}/lib/vosk/libvosk.lib")
+target_link_libraries( ${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
