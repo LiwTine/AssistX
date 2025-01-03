@@ -3,7 +3,6 @@
 
 #include "IParser.h"
 
-
 class CommandParser : public IParser {
 public:
     explicit CommandParser();

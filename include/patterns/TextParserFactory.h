@@ -9,11 +9,13 @@
 
 #include "parser/ActionParser.h"
 #include "parser/CommandParser.h"
+#include "parser/ParserJSON.h"
 #include "parser/IParser.h"
 
 namespace patterns {
     inline std::shared_ptr<IParser> CreateParser( ParserType type ) {
         switch ( type ) {
+            case ParserType::JSON: return std::make_shared<ParserJSON>();
             case ParserType::ACTION: return std::make_shared<ActionParser>();
             case ParserType::COMMAND: return std::make_shared<CommandParser>();
             default: return nullptr;
@@ -54,6 +56,7 @@ namespace patterns {
 
         ~PipelineProcessor() {
             std::cout << __FUNCSIG__ << " (" << std::this_thread::get_id() << ")" << std::endl;
+            std::cout << "ПАДАЕТ" << std::endl;
         }
 
         void addData(const std::string& data);

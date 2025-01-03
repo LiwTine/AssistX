@@ -2,6 +2,7 @@
 #define UNMUMERATIONS_H
 
 enum class ParserType {
+  JSON,
   COMMAND,
   ACTION,
   UNDEFINED

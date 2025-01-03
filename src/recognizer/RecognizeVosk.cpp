@@ -2,7 +2,7 @@
 
 void RecognizeVosk::initialize()
 {
-    _model = vosk_model_new("D:/work/AssistX/cmake-build-debug-visual-studio-x64/assets/models/model_vosk_small_ru");
+    _model = vosk_model_new("C:/Users/ImbaM/Desktop/AssistX/assets/models/model_vosk_small_ru");
     if (!_model) {
         throw std::logic_error("Error on load model");
     }
@@ -26,7 +26,7 @@ void RecognizeVosk::executeProcessing()  {
                                                 static_cast<int>(buffer.size() * sizeof(int16_t))))
             {
                 std::string result = vosk_recognizer_result(_recognizer);
-                //std::cout << "Результат: " << result << std::endl;
+                std::cout << "Результат: " << result << std::endl;
                 pipelineProcessor->addData(result);
             }
         }
