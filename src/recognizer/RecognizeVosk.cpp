@@ -13,8 +13,10 @@ void RecognizeVosk::initialize()
 
 void RecognizeVosk::executeProcessing()  {
     while (_isRunning) {
+
         std::unique_lock<std::mutex> lock(*queueMutex);
-        queueCondition->wait(lock, [this] { return !audioQueue->empty() || !_isRunning; });
+
+        queueCondition->wait(lock, [this] { return !audioQueue->empty(); });
 
         if (!audioQueue->empty()) {
             auto buffer = audioQueue->front();

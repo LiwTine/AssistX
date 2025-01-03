@@ -12,7 +12,7 @@ void Assistant::ComponentInitialize() {
     components.push_back(std::make_unique<RecognizeVosk>(queue, mutex, condition));
     components.push_back(std::make_unique<InputVoice>(queue, mutex, condition));
 
-    pipelineProcessor = std::make_unique< patterns::PipelineProcessor >( patterns::PipelineFactory::createPipeline ( ) );
+    // pipelineProcessor = std::make_unique< patterns::PipelineProcessor >( patterns::PipelineFactory::createPipeline ( ) );
 }
 
 
@@ -21,7 +21,10 @@ void Assistant::Run( ) {
     isRunning::startRun( );
 
     pipelineThread = std::thread([this]() {
-        pipelineProcessor->run();
+        if ( pipelineProcessor ) {
+            pipelineProcessor->run();
+        }
+        else { throw std::runtime_error("Pipeline processor is not initialized"); }
     });
 
     for (auto &component : components) {
@@ -33,14 +36,10 @@ void Assistant::Run( ) {
     }
 
     pipelineThread.join();
-
 }
 
 void Assistant::joinThreads() {
     isRunning::stopRun();
-
-    if ( pipelineThread.joinable() )
-        pipelineThread.join();
 
     for (auto &thread : threads) {
         if (thread.joinable()) {

@@ -24,6 +24,8 @@ private:
     void joinThreads();
 
     std::thread pipelineThread;
+
+    std::deque<std::string> _shared_queue;
 };
 
 
