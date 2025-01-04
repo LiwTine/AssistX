@@ -9,10 +9,10 @@ void Assistant::ComponentInitialize() {
     auto mutex = std::make_shared<std::mutex>();
     auto condition = std::make_shared<std::condition_variable>();
 
-    components.push_back(std::make_unique<RecognizeVosk>(queue, mutex, condition));
-    components.push_back(std::make_unique<InputVoice>(queue, mutex, condition));
+    pipelineProcessor = std::make_unique< patterns::PipelineProcessor >( patterns::PipelineFactory::createPipeline ( ) );
 
-    // pipelineProcessor = std::make_unique< patterns::PipelineProcessor >( patterns::PipelineFactory::createPipeline ( ) );
+    components.push_back(std::make_unique<RecognizeVosk>(queue, mutex, condition, *pipelineProcessor));
+    components.push_back(std::make_unique<InputVoice>(queue, mutex, condition));
 }
 
 
@@ -20,7 +20,7 @@ void Assistant::Run( ) {
     ComponentInitialize( );
     isRunning::startRun( );
 
-    pipelineThread = std::thread([this]() {
+    auto pipelineThread = std::thread([this]() {
         if ( pipelineProcessor ) {
             pipelineProcessor->run();
         }
@@ -29,14 +29,16 @@ void Assistant::Run( ) {
 
     for (auto &component : components) {
         threads.emplace_back([component = std::move(component)]() {
-            std::cout << "Поток создан: " << std::this_thread::get_id() << std::endl;
             component->initialize();
             component->executeProcessing();
+            std::cout << "Поток создан: " << std::this_thread::get_id() << std::endl;
         });
     }
 
-    joinThreads();
+    std::cout << "Поток создан: "<< std::endl;
+
     pipelineThread.join();
+
 }
 
 void Assistant::joinThreads() {

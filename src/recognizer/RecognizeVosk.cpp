@@ -8,7 +8,7 @@ void RecognizeVosk::initialize()
     }
     _recognizer = vosk_recognizer_new(_model, SAMPLE_RATE);
 
-    pipelineProcessor = std::make_unique<patterns::PipelineProcessor>( patterns::TextProcessingPipeline() );
+
 }
 
 void RecognizeVosk::executeProcessing()  {
@@ -28,8 +28,7 @@ void RecognizeVosk::executeProcessing()  {
                                                 static_cast<int>(buffer.size() * sizeof(int16_t))))
             {
                 std::string result = vosk_recognizer_result(_recognizer);
-                std::cout << "Результат: " << result << std::endl;
-                pipelineProcessor->addData(result);
+                pipeline.addData(result);
             }
         }
     }

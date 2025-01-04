@@ -5,7 +5,8 @@ enum class ParserType {
   JSON,
   COMMAND,
   ACTION,
-  UNDEFINED
+  UNDEFINED,
+  STOP_PARSE
 };
 
 #endif //UNMUMERATIONS_H

@@ -1,5 +1,5 @@
 #include "patterns/TextParserFactory.h"
-#include "parser/CommandParser.h"
+//#include "parser/CommandParser.h"
 #include "parser/ActionParser.h"
 #include "core/isRunning.h"
 
@@ -19,50 +19,52 @@ patterns::TextProcessingPipeline patterns::PipelineFactory::createPipeline() {
 
 void patterns::PipelineProcessor::addData(const std::string &data) {
     std::lock_guard lock(queueMutex);
-
-    std::cout << __FUNCSIG__ << " (" << std::this_thread::get_id() << ")" << std::endl;
-
-    std::cout << "Queue address: " << &inputQueue << std::endl;
-    std::cout << "Mutex address: " << &queueMutex << std::endl;
-    std::cout << "Condition Variable address: " << &queueCondition << std::endl;
-
     inputQueue.push(data);
     queueCondition.notify_one();
 }
 
 void patterns::PipelineProcessor::run() {
     while ( isRunning::_isRunning ) {
-        std::string data;
+        std::string inputData;
+        std::string result;
         std::unique_lock lock(queueMutex );
-
-        std::cout << __FUNCSIG__ << " (" << std::this_thread::get_id() << ")" << std::endl;
-
-        std::cout << "Queue address: " << &inputQueue << std::endl;
-        std::cout << "Mutex address: " << &queueMutex << std::endl;
-        std::cout << "Condition Variable address: " << &queueCondition << std::endl;
 
         queueCondition.wait(lock, [this] {
             return !inputQueue.empty();
         });
 
         if (!inputQueue.empty()) {
-            data = inputQueue.front();
+            inputData = inputQueue.front();
             inputQueue.pop();
         }
 
-        if ( !data.empty( ) ) {
-            const auto type = recognizeType( data );
-            std::cout << data << std::endl;
+        if ( !inputData.empty( ) ) {
+            const auto type = recognizeType( inputData );
             if ( const auto parser = pipeline.getParser( type ); parser ) {
-                auto result = parser->parse( data );
-                std::cout << parser << ": \"" << data << "\""<< std::endl;
-                inputQueue.push( result );
-                queueCondition.notify_one();
+                result = parser->parse( inputData, result );
+                std::cout << "Parser: " << parser << ", Result: " << result << std::endl;
+
+                if (type == ParserType::JSON) {
+                    inputData = result;
+                }
+                if (type != ParserType::STOP_PARSE) {
+                    inputQueue.push(inputData);
+                    queueCondition.notify_one();
+                }
             }
         }
     }
 }
 
 ParserType patterns::PipelineProcessor::recognizeType(const std::string &data) {
-    return ParserType::JSON; // тут нужно понять что именно прилетело, возможно тут будет фильтр
+    //return ParserType::JSON; // тут нужно понять что именно прилетело, возможно тут будет фильтр
+
+    // Пока так, я не придумал, как реализовать фильтр
+    switch (parserIndex) {
+        case 0: parserIndex = 1; return ParserType::JSON;
+        case 1: parserIndex = 2; return ParserType::ACTION;
+        case 2: parserIndex = 3; return ParserType::COMMAND;
+        case 3: parserIndex = 0; return ParserType::STOP_PARSE;
+        default: parserIndex = 0; return ParserType::UNDEFINED;
+    }
 }

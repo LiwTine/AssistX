@@ -7,7 +7,7 @@ class ParserJSON : public IParser {
 public:
     explicit ParserJSON();
 
-    std::string parse(const std::string& data) override;
+    std::string parse(const std::string& text, const std::string& result) override;
     ~ParserJSON() noexcept override;
 };
 

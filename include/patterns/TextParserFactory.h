@@ -68,6 +68,7 @@ namespace patterns {
         ParserType recognizeType(const std::string& data);
 
     private:
+        int parserIndex = 0;
         TextProcessingPipeline pipeline;
         std::queue<std::string> inputQueue;
         std::mutex queueMutex;

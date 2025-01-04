@@ -14,9 +14,7 @@ public:
 
     virtual ~IParser() = default;
 
-    [[nodiscard]] ParserType type() const { return _type; }
-
-    virtual std::string parse(const std::string& text) = 0;
+    virtual std::string parse(const std::string& text, const std::string& result) = 0;
 
 private:
     ParserType _type = ParserType::UNDEFINED;

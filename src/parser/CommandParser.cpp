@@ -5,8 +5,8 @@ CommandParser::CommandParser()
 {
 }
 
-std::string CommandParser::parse(const std::string &text) {
-    return {};
+std::string CommandParser::parse(const std::string& text, const std::string& result) {
+    return {"ParserType::COMMAND"};
 }
 
 CommandParser::~CommandParser() noexcept = default;
